@@ -171,5 +171,5 @@ public static class SurseFisiere
         => Path.GetFileNameWithoutExtension(numeXmlRezultat) + "_raport.xlsx";
 
     public static string NumeFisierDbf(DateTime dataMin, DateTime dataMax)
-        => $"IN_{dataMin:ddMMyyyy}_{dataMax:ddMMyyyy}_AF.DBF";
+        => $"IN_{dataMin:dd-MM-yyyy}_{dataMax:dd-MM-yyyy}_AF.DBF";
 }

@@ -449,9 +449,10 @@ DBF-ul reflectă liniile **după agregare** (§8) și **fără** facturile exclu
 
 Convenția din v1, cu scriere în `D:\De_Importat`:
 
-- Intrări: `F_13150581_ddmmyyyy_DDMMYYYY_IN.xml`, raport `..._IN_raport.xlsx`, DBF `IN_ddmmyyyy_DDMMYYYY_AF.DBF`
+- Intrări: `F_13150581_ddmmyyyy_DDMMYYYY_IN.xml`, raport `..._IN_raport.xlsx`, DBF `IN_zz-ll-aaaa_ZZ-LL-AAAA_AF.DBF`
 - Ieșiri: `F_13150581_ddmmyyyy_DDMMYYYY_IE.xml`, raport `..._IE_raport.xlsx`
 - `ddmmyyyy_DDMMYYYY` = data minimă / maximă din `<FacturaData>` ale facturilor **rămase după excludere** (§4).
+- Numele DBF-ului de intrări conține obligatoriu cratime (`-`) între zi, lună și an — SAGA nu recunoaște fișierul ca eligibil pentru import fără ele.
 
 > Riscul de suprascriere semnalat în v2 dispare: sursa este `…\Tmp`, destinația este `D:\De_Importat`.
 
