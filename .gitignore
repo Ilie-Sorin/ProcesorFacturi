@@ -2,6 +2,13 @@
 bin/
 obj/
 
+# Excepție: executabilul Release, urmărit intenționat la cerere (build gata de distribuit)
+!src/ProcesorFacturi.App/bin/
+!src/ProcesorFacturi.App/bin/Release/
+!src/ProcesorFacturi.App/bin/Release/net48/
+!src/ProcesorFacturi.App/bin/Release/net48/**
+src/ProcesorFacturi.App/bin/Release/net48/config.json
+
 # Visual Studio / Rider
 .vs/
 *.user
