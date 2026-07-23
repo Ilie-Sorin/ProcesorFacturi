@@ -1,0 +1,178 @@
+<Window x:Class="ProcesorFacturi.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Procesor Facturi ANCAFARM" Height="820" Width="1280"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Foldere + optiuni -->
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="0,0,0,8" Margin="0,0,0,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Folder sursă (Tmp):" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Grid.Column="1" x:Name="TxtFolderSursa" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <Button Grid.Column="2" x:Name="BtnBrowseSursa" Content="..." Width="30" Click="BtnBrowseSursa_Click" Margin="0,0,16,0"/>
+
+                <TextBlock Grid.Column="3" Text="Folder destinație:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Grid.Column="4" x:Name="TxtFolderDestinatie" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <Button Grid.Column="5" x:Name="BtnBrowseDestinatie" Content="..." Width="30" Click="BtnBrowseDestinatie_Click" Margin="0,0,16,0"/>
+
+                <CheckBox Grid.Column="6" x:Name="ChkGenereazaXlsx" Content="Generează raport XLSX" VerticalAlignment="Center"
+                          Checked="ChkGenereazaXlsx_Changed" Unchecked="ChkGenereazaXlsx_Changed"/>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="1" x:Name="TabPrincipal">
+
+            <!-- ===================== TAB PROCESARE ===================== -->
+            <TabItem Header="Procesare">
+                <Grid Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Grid.Row="0" Header="Fișiere sursă (export ERP)" Margin="0,0,0,4">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,4,0,0">
+                                <Button x:Name="BtnReimprospateazaSursa" Content="Reîmprospătează" Padding="8,2" Margin="0,0,8,0" Click="BtnReimprospateazaSursa_Click"/>
+                                <Button x:Name="BtnPreiaFisiere" Content="Preia fișiere" Padding="8,2" Click="BtnPreiaFisiere_Click"/>
+                                <TextBlock x:Name="TxtStatusSursa" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="DimGray"/>
+                            </StackPanel>
+                            <DataGrid x:Name="DgFisiereSursa" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="False">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Header="Sel." Binding="{Binding Selectat}" Width="40"/>
+                                    <DataGridTextColumn Header="Nume fișier" Binding="{Binding NumeFisier}" Width="3*" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Data/ora" Binding="{Binding DataOra}" Width="2*" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Dimensiune" Binding="{Binding Dimensiune}" Width="*" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Facturi" Binding="{Binding NumarFacturi}" Width="*" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Tip detectat" Binding="{Binding TipDetectat}" Width="2*" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Header="Fișiere de procesat (preluate)" Margin="0,0,0,4">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,4,0,0">
+                                <Button x:Name="BtnReimprospateazaLucru" Content="Reîmprospătează" Padding="8,2" Margin="0,0,8,0" Click="BtnReimprospateazaLucru_Click"/>
+                                <Button x:Name="BtnProceseaza" Content="Procesează" Padding="8,2" FontWeight="Bold" Click="BtnProceseaza_Click"/>
+                            </StackPanel>
+                            <DataGrid x:Name="DgFisiereLucru" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Nume fișier" Binding="{Binding}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="2" Header="Jurnal procesare">
+                        <DockPanel>
+                            <TextBlock x:Name="TxtContoareJurnal" DockPanel.Dock="Bottom" Margin="0,4,0,0" FontWeight="Bold"/>
+                            <ListView x:Name="LstJurnal">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Ora" DisplayMemberBinding="{Binding Timestamp, StringFormat=HH:mm:ss}" Width="70"/>
+                                        <GridViewColumn Header="Nivel" DisplayMemberBinding="{Binding Nivel}" Width="80"/>
+                                        <GridViewColumn Header="Categorie" DisplayMemberBinding="{Binding Categorie}" Width="90"/>
+                                        <GridViewColumn Header="Factură" DisplayMemberBinding="{Binding FacturaNumar}" Width="110"/>
+                                        <GridViewColumn Header="Mesaj" DisplayMemberBinding="{Binding Mesaj}" Width="700"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </DockPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== TAB REGISTRE ===================== -->
+            <TabItem Header="Registre">
+                <Grid Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Grid.Column="0" Header="InAnte.txt (Intrări)" Margin="0,0,4,0">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBox x:Name="TxtCautareInAnte" Width="200" Margin="0,0,8,0" TextChanged="TxtCautareInAnte_TextChanged"/>
+                                <TextBlock x:Name="TxtTotalInAnte" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,4,0,0">
+                                <Button x:Name="BtnAnuleazaLotInAnte" Content="Anulează ultimul lot" Padding="8,2" Margin="0,0,8,0" Click="BtnAnuleazaLotInAnte_Click"/>
+                                <Button x:Name="BtnDeschideInAnte" Content="Deschide în editor extern" Padding="8,2" Click="BtnDeschideInAnte_Click"/>
+                            </StackPanel>
+                            <ListBox x:Name="LstInAnte"/>
+                        </DockPanel>
+                    </GroupBox>
+
+                    <GroupBox Grid.Column="1" Header="IeAnte.txt (Ieșiri)" Margin="4,0,0,0">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBox x:Name="TxtCautareIeAnte" Width="200" Margin="0,0,8,0" TextChanged="TxtCautareIeAnte_TextChanged"/>
+                                <TextBlock x:Name="TxtTotalIeAnte" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,4,0,0">
+                                <Button x:Name="BtnAnuleazaLotIeAnte" Content="Anulează ultimul lot" Padding="8,2" Margin="0,0,8,0" Click="BtnAnuleazaLotIeAnte_Click"/>
+                                <Button x:Name="BtnDeschideIeAnte" Content="Deschide în editor extern" Padding="8,2" Click="BtnDeschideIeAnte_Click"/>
+                            </StackPanel>
+                            <ListBox x:Name="LstIeAnte"/>
+                        </DockPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== TAB GRUPE ===================== -->
+            <TabItem Header="Grupe">
+                <Grid Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="0,0,0,8" TextWrapping="Wrap"
+                               Text="Grupe.xlsx e folosit DOAR pentru validare (§5): aplicația nu completează și nu suprascrie &lt;Cont&gt;/&lt;Activitate&gt; din XML. Tabelele de mai jos sunt referință vizuală, încărcate din Grupe.xlsx la pornire."/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Column="0" Header="Intrari (ClientNume)" Margin="0,0,4,0">
+                            <DataGrid x:Name="DgGrupeIntrari" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Nume" Binding="{Binding Nume}" Width="2*"/>
+                                    <DataGridTextColumn Header="Cont" Binding="{Binding Cont}" Width="*"/>
+                                    <DataGridTextColumn Header="Activitate" Binding="{Binding Activitate}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="1" Header="Iesiri (FurnizorNume)" Margin="4,0,0,0">
+                            <DataGrid x:Name="DgGrupeIesiri" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Nume" Binding="{Binding Nume}" Width="2*"/>
+                                    <DataGridTextColumn Header="Cont" Binding="{Binding Cont}" Width="*"/>
+                                    <DataGridTextColumn Header="Activitate" Binding="{Binding Activitate}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

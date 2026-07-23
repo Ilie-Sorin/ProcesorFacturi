@@ -1,0 +1,15 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio / Rider
+.vs/
+*.user
+*.suo
+
+# Registre — backup-uri generate automat (§4.3), nu au ce cauta in istoricul git
+*.bak
+
+# Date de lucru generate la rulare (nu sunt cod sursa / date seed ale proiectului)
+Arhiva/
+Preluate/
