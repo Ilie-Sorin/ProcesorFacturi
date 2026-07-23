@@ -1,0 +1,68 @@
+<Window x:Class="ProcesorFacturi.App.AjutorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ajutor — Procesor Facturi ANCAFARM" Height="620" Width="640"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="Cum funcționează aplicația" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,12">
+                    Aplicația preia fișierele XML cu facturi exportate din ERP, determină automat dacă
+                    fiecare factură e de <Run FontWeight="Bold">Intrare</Run> sau <Run FontWeight="Bold">Ieșire</Run>
+                    (după &lt;FurnizorCIF&gt;, nu după numele fișierului) și generează fișierele de import
+                    pentru SAGA, ținând evidența facturilor deja trimise ca să nu ajungă a doua oară.
+                </TextBlock>
+
+                <TextBlock Text="1. Fișiere sursă → Preia fișiere" FontWeight="Bold" Margin="0,8,0,4"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,12">
+                    Tab „Procesare”: „Reîmprospătează” recitește folderul sursă (Tmp) și afișează fișierele
+                    găsite, cu tipul detectat și numărul de facturi. Bifează fișierele dorite și apasă
+                    „Preia fișiere” — sunt <Run FontStyle="Italic">mutate</Run> (nu copiate) în folderul de
+                    lucru al aplicației, ca să nu poată fi procesate din greșeală a doua oară din sursă.
+                </TextBlock>
+
+                <TextBlock Text="2. Procesează" FontWeight="Bold" Margin="0,0,0,4"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,12">
+                    Apasă „Procesează” pentru fișierele preluate. Pentru fiecare:
+                    <LineBreak/>• <Run FontWeight="Bold">Intrări</Run> — agregă liniile pe cotă de TVA, înlocuiește clientul cu „ANCAFARM” și generează XML + fișier DBF (pentru NR_NIR în SAGA) + raport XLSX opțional.
+                    <LineBreak/>• <Run FontWeight="Bold">Ieșiri</Run> — prefixează numărul facturii (BTANCA1-4, după activitate) și generează XML + raport XLSX opțional (fără DBF).
+                    <LineBreak/>Fișierele rezultate ajung în folderul destinație; sursa procesată se arhivează automat.
+                </TextBlock>
+
+                <TextBlock Text="3. Tab Registre" FontWeight="Bold" Margin="0,0,0,4"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,12">
+                    InAnte.txt (Intrări) și IeAnte.txt (Ieșiri) țin evidența facturilor deja trimise — o
+                    factură deja prezentă în registru e exclusă automat data viitoare. Dacă importul în
+                    SAGA eșuează după generare, „Anulează ultimul lot” elimină din registru exact valorile
+                    adăugate la ultima procesare.
+                </TextBlock>
+
+                <TextBlock Text="4. Tab Grupe" FontWeight="Bold" Margin="0,0,0,4"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,12">
+                    Grupe.xlsx e folosit DOAR pentru validare — aplicația nu completează și nu suprascrie
+                    &lt;Cont&gt;/&lt;Activitate&gt; din XML. Tabelele din acest tab sunt referință vizuală;
+                    un nume negăsit înseamnă doar o avertizare în jurnal, factura rămâne în output.
+                </TextBlock>
+
+                <TextBlock Text="Jurnal" FontWeight="Bold" Margin="0,0,0,4"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,4">
+                    La baza tab-ului „Procesare”, jurnalul arată avertizările și erorile din ultima
+                    rulare (facturi excluse ca duplicat, linii consolidate prin agregare, nume negăsite
+                    în Grupe.xlsx etc.).
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" Margin="0,12,0,0">
+            <Separator Margin="0,0,0,8"/>
+            <TextBlock HorizontalAlignment="Center" Foreground="DimGray" FontSize="11"
+                       Text="Engineered by SorinH · Co-piloted by Claude (Anthropic)"/>
+        </StackPanel>
+    </Grid>
+</Window>

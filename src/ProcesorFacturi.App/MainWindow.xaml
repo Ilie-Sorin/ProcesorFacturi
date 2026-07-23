@@ -6,11 +6,16 @@
     <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Menu Grid.Row="0" Margin="0,0,0,4">
+            <MenuItem Header="_Ajutor" Click="MenuAjutor_Click"/>
+        </Menu>
+
         <!-- Foldere + optiuni -->
-        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="0,0,0,8" Margin="0,0,0,8">
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="0,0,0,8" Margin="0,0,0,8">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -35,7 +40,7 @@
             </Grid>
         </Border>
 
-        <TabControl Grid.Row="1" x:Name="TabPrincipal">
+        <TabControl Grid.Row="2" x:Name="TabPrincipal">
 
             <!-- ===================== TAB PROCESARE ===================== -->
             <TabItem Header="Procesare">

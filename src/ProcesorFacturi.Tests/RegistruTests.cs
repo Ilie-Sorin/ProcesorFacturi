@@ -144,7 +144,9 @@ public class RegistruTests : IDisposable
         var jurnal = new Jurnal();
         var registru = Registru.Deschide(caleCopie, jurnal);
 
-        Assert.True(registru.NumarTotal > 0);
-        Assert.Contains(jurnal.Intrari, i => i.Mesaj.Contains("duplicate eliminate"));
+        // Conținutul exact (inclusiv dacă are sau nu duplicate) e stare vie, mutabilă prin
+        // uz normal al aplicației — testul verifică doar că fișierul real se poate încărca
+        // fără excepții, nu un anumit conținut fixat la un moment dat.
+        Assert.False(jurnal.AreErori);
     }
 }

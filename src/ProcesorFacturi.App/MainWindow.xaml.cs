@@ -46,6 +46,12 @@ public partial class MainWindow : Window
         ReincarcaGrupe();
     }
 
+    private void MenuAjutor_Click(object sender, RoutedEventArgs e)
+    {
+        var fereastraAjutor = new AjutorWindow { Owner = this };
+        fereastraAjutor.ShowDialog();
+    }
+
     // ===================== Foldere / opțiuni =====================
 
     private void BtnBrowseSursa_Click(object sender, RoutedEventArgs e)
